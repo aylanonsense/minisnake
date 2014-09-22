@@ -1,0 +1,43 @@
+<html>
+<body>
+<canvas id="a" width="200" height="200" />
+<script type="text/javascript">
+w=200,h=200;
+c=document.getElementById('a').getContext('2d');
+pos=[[5,5]];
+dir=97;
+changed=false;
+food=[Math.floor(10*Math.random()),Math.floor(10*Math.random())];
+document.onkeypress = function(evt) {
+	if(!changed&&dir%12>5!=evt.which%12>5){dir = evt.which;changed=true;}
+};
+setInterval(function(){
+	//draw background
+	c.fillStyle="#cfb";
+	c.fillRect(0,0,w,h);
+	//move snake
+	pos.unshift([
+		pos[0][0]-Math.floor((dir%14-3)/10),
+		pos[0][1]+Math.floor((dir%13-3)/8)
+	]);
+	pos.pop();
+	//eat food
+	if(pos[0][0]==food[0] && pos[0][1]==food[1]){
+		pos.push([food]);
+		food=[Math.floor(10*Math.random()),Math.floor(10*Math.random())];
+	}
+	//draw food
+	c.fillStyle="#444";
+	c.fillRect(20*food[0],20*food[1],19,19);
+	//draw snake
+	c.fillStyle="#f01";
+	for(i=0;i<pos.length;i++){
+		c.fillRect(20*pos[i][0],20*pos[i][1],19,19);
+		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){pos=[[5,5]];break;}
+		c.fillStyle="#444";
+	}
+	changed=false;
+},99);
+</script>
+</body>
+</html>
