@@ -2,10 +2,15 @@
 <script>
 w=400,h=400;
 c=document.getElementById('a').getContext('2d');
-pos=[[5,5]];
-dir=97;
-changed=false;
-food=[Math.floor(20*Math.random()),Math.floor(20*Math.random())];
+function reset(partial) {
+	if(!partial){
+		pos=[[9,9]];
+		dir=97;
+	}
+	food=[Math.floor(20*Math.random()),Math.floor(20*Math.random())];
+	changed=false;
+}
+reset();
 document.onkeypress = function(evt) {
 	if(!changed&&dir%12>5!=evt.which%12>5){dir = evt.which;changed=true;}
 };
@@ -20,11 +25,11 @@ setInterval(function(){
 	]);
 	pos.pop();
 	//check for out of bounds
-	if(pos[0][0]<0 || pos[0][1]<0 || pos[0][0]>19 || pos[0][1]>19){pos=[[5,5]];food=[Math.floor(20*Math.random()),Math.floor(20*Math.random())];}
+	if(pos[0][0]<0 || pos[0][1]<0 || pos[0][0]>19 || pos[0][1]>19){reset();}
 	//eat food
 	if(pos[0][0]==food[0] && pos[0][1]==food[1]){
 		pos.push([food]);
-		food=[Math.floor(20*Math.random()),Math.floor(20*Math.random())];
+		reset(1);
 	}
 	//draw food
 	c.fillStyle="#f01";
@@ -33,7 +38,7 @@ setInterval(function(){
 	c.fillStyle="#444";
 	for(i=0;i<pos.length;i++){
 		c.fillRect(20*pos[i][0],20*pos[i][1],19,19);
-		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){pos=[[5,5]];food=[Math.floor(20*Math.random()),Math.floor(20*Math.random())];break;}
+		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){reset();}
 	}
 	changed=false;
 },99);
