@@ -21,6 +21,8 @@ setInterval(function(){
 		pos[0][1]+Math.floor((dir%13-3)/8)
 	]);
 	pos.pop();
+	//check for out of bounds
+	if(pos[0][0]<0 || pos[0][1]<0 || pos[0][0]>9 || pos[0][1]>9){pos=[[5,5]];food=[Math.floor(10*Math.random()),Math.floor(10*Math.random())];}
 	//eat food
 	if(pos[0][0]==food[0] && pos[0][1]==food[1]){
 		pos.push([food]);
@@ -33,7 +35,7 @@ setInterval(function(){
 	c.fillStyle="#f01";
 	for(i=0;i<pos.length;i++){
 		c.fillRect(20*pos[i][0],20*pos[i][1],19,19);
-		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){pos=[[5,5]];break;}
+		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){pos=[[5,5]];food=[Math.floor(10*Math.random()),Math.floor(10*Math.random())];break;}
 		c.fillStyle="#444";
 	}
 	changed=false;
