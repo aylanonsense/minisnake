@@ -1,13 +1,15 @@
 <canvas id="a" width=400 height=400 />
 <script>
 w=400,h=400;
+f=Math.floor;
+r=Math.random;
 c=document.getElementById('a').getContext('2d');
 function reset(partial) {
 	if(!partial){
 		pos=[[9,9]];
 		dir=97;
 	}
-	food=[Math.floor(20*Math.random()),Math.floor(20*Math.random())];
+	food=[f(20*r()),f(20*r())];
 	changed=false;
 }
 reset();
@@ -20,8 +22,8 @@ setInterval(function(){
 	c.fillRect(0,0,w,h);
 	//move snake
 	pos.unshift([
-		pos[0][0]-Math.floor((dir%14-3)/10),
-		pos[0][1]+Math.floor((dir%13-3)/8)
+		pos[0][0]-f((dir%14-3)/10),
+		pos[0][1]+f((dir%13-3)/8)
 	]);
 	pos.pop();
 	//check for out of bounds
