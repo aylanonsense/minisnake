@@ -29,14 +29,13 @@ setInterval(function(){
 		food=[Math.floor(10*Math.random()),Math.floor(10*Math.random())];
 	}
 	//draw food
-	c.fillStyle="#444";
+	c.fillStyle="#f01";
 	c.fillRect(20*food[0],20*food[1],19,19);
 	//draw snake
-	c.fillStyle="#f01";
+	c.fillStyle="#444";
 	for(i=0;i<pos.length;i++){
 		c.fillRect(20*pos[i][0],20*pos[i][1],19,19);
 		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){pos=[[5,5]];food=[Math.floor(10*Math.random()),Math.floor(10*Math.random())];break;}
-		c.fillStyle="#444";
 	}
 	changed=false;
 },99);
