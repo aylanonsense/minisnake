@@ -25,7 +25,7 @@ document.onkeydown=function(evt){
 setInterval(function(){
 	//draw background
 	ctx[style]="#cfb";
-	ctx[draw](0,0,400,400)
+	ctx[draw](0,0,400,400);
 	ctx[style]="#444";
 	if(isGameOver){
 		ctx.fillText("Game Over! Press Space to start",50,160)
