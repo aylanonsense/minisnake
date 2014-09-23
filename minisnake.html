@@ -11,7 +11,8 @@ function reset(partial) {
 		pos=[{x:9,y:9}];
 		dir=97;
 	}
-	food={x:f(20*r()),y:f(20*r())};
+	k=f(20*r());
+	h=f(20*r());
 	changed=false;
 }
 reset();
@@ -34,13 +35,13 @@ setInterval(function(){
 	//check for out of bounds
 	if(o<0 || q<0 || o>19 || q>19){reset();}
 	//eat food
-	if(o==food.x && q==food.y){
-		pos.push([food]);
+	if(o==k && q==h){
+		pos.push([k]);
 		reset(1);
 	}
 	//draw food
 	c[s]="#f01";
-	c[b](20*food.x,20*food.y,19,19);
+	c[b](20*k,20*h,19,19);
 	//draw snake
 	c[s]="#444";
 	for(i in pos){
