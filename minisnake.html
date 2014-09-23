@@ -6,10 +6,10 @@ z=document;
 c=z.getElementById('a').getContext('2d');
 function reset(partial) {
 	if(!partial){
-		pos=[[9,9]];
+		pos=[{x:9,y:9}];
 		dir=97;
 	}
-	food=[f(20*r()),f(20*r())];
+	food={x:f(20*r()),y:f(20*r())};
 	changed=false;
 }
 reset();
@@ -21,26 +21,26 @@ setInterval(function(){
 	c.fillStyle="#cfb";
 	c.fillRect(0,0,400,400);
 	//move snake
-	pos.unshift([
-		pos[0][0]-f((dir%14-3)/10),
-		pos[0][1]+f((dir%13-3)/8)
-	]);
+	pos.unshift({
+		x:pos[0].x-f((dir%14-3)/10),
+		y:pos[0].y+f((dir%13-3)/8)
+	});
 	pos.pop();
 	//check for out of bounds
-	if(pos[0][0]<0 || pos[0][1]<0 || pos[0][0]>19 || pos[0][1]>19){reset();}
+	if(pos[0].x<0 || pos[0].y<0 || pos[0].x>19 || pos[0].y>19){reset();}
 	//eat food
-	if(pos[0][0]==food[0] && pos[0][1]==food[1]){
+	if(pos[0].x==food.x && pos[0].y==food.y){
 		pos.push([food]);
 		reset(1);
 	}
 	//draw food
 	c.fillStyle="#f01";
-	c.fillRect(20*food[0],20*food[1],19,19);
+	c.fillRect(20*food.x,20*food.y,19,19);
 	//draw snake
 	c.fillStyle="#444";
 	for(i=0;i<pos.length;i++){
-		c.fillRect(20*pos[i][0],20*pos[i][1],19,19);
-		if(i>0 && pos[i][0]==pos[0][0] && pos[i][1]==pos[0][1]){reset();}
+		c.fillRect(20*pos[i].x,20*pos[i].y,19,19);
+		if(i>0 && pos[i].x==pos[0].x && pos[i].y==pos[0].y){reset();}
 	}
 	changed=false;
 },99);
