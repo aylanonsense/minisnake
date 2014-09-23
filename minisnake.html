@@ -23,15 +23,18 @@ setInterval(function(){
 	c[s]="#cfb";
 	c[b](0,0,400,400);
 	//move snake
+	o=pos[0];
 	pos.unshift({
-		x:pos[0].x-f((dir%14-3)/10),
-		y:pos[0].y+f((dir%13-3)/8)
+		x:o.x-f((dir%14-3)/10),
+		y:o.y+f((dir%13-3)/8)
 	});
+	o=pos[0].x;
+	q=pos[0].y;
 	pos.pop();
 	//check for out of bounds
-	if(pos[0].x<0 || pos[0].y<0 || pos[0].x>19 || pos[0].y>19){reset();}
+	if(o<0 || q<0 || o>19 || q>19){reset();}
 	//eat food
-	if(pos[0].x==food.x && pos[0].y==food.y){
+	if(o==food.x && q==food.y){
 		pos.push([food]);
 		reset(1);
 	}
@@ -40,9 +43,11 @@ setInterval(function(){
 	c[b](20*food.x,20*food.y,19,19);
 	//draw snake
 	c[s]="#444";
-	for(i=0;i<pos.length;i++){
-		c[b](20*pos[i].x,20*pos[i].y,19,19);
-		if(i>0 && pos[i].x==pos[0].x && pos[i].y==pos[0].y){reset();}
+	for(i in pos){
+		t=pos[i].x;
+		v=pos[i].y;
+		c[b](20*t,20*v,19,19);
+		if(i>0 && t==o && v==q){reset();}
 	}
 	changed=false;
 },99);
