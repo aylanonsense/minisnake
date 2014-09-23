@@ -1,9 +1,9 @@
 <canvas id="a" width=400 height=400 />
 <script>
-w=400,h=400;
 f=Math.floor;
 r=Math.random;
-c=document.getElementById('a').getContext('2d');
+z=document;
+c=z.getElementById('a').getContext('2d');
 function reset(partial) {
 	if(!partial){
 		pos=[[9,9]];
@@ -13,13 +13,13 @@ function reset(partial) {
 	changed=false;
 }
 reset();
-document.onkeypress = function(evt) {
+z.onkeypress = function(evt) {
 	if(!changed&&dir%12>5!=evt.which%12>5){dir = evt.which;changed=true;}
 };
 setInterval(function(){
 	//draw background
 	c.fillStyle="#cfb";
-	c.fillRect(0,0,w,h);
+	c.fillRect(0,0,400,400);
 	//move snake
 	pos.unshift([
 		pos[0][0]-f((dir%14-3)/10),
