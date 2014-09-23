@@ -1,8 +1,7 @@
-<canvas id="z" width=400 height=400/>
+<canvas id="z" width=400 height=400>
 <script>
 style='fillStyle';
 draw='fillRect';
-flr=Math.floor;
 rnd=Math.random;
 ctx=z.getContext('2d');
 tileSpacing=20;
@@ -14,8 +13,8 @@ function reset(partial){
 		positions=[{x:9,y:9}];
 		moveDir=0;
 	}
-	foodX=flr(tileSpacing*rnd());
-	foodY=flr(tileSpacing*rnd());
+	foodX=~~(tileSpacing*rnd());
+	foodY=~~(tileSpacing*rnd());
 	canChangeDir=1;
 	isGameOver=0
 }
@@ -33,7 +32,7 @@ setInterval(function(){
 	if(isGameOver) {
 		ctx.fillText("Game Over! Press Space to start",50,160)
 	}
-	else {
+	else{
 		//move snake
 		tempPos0=positions[0];
 		positions.unshift({
