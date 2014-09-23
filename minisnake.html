@@ -6,18 +6,21 @@ flr=Math.floor;
 rnd=Math.random;
 doct=document;
 ctx=doct.getElementById('a').getContext('2d');
-function reset(partial) {
+horizontalLookup={37:-1,39:1};
+verticalLookup={38:-1,40:1};
+function reset(partial){
 	if(!partial){
 		positions=[{x:9,y:9}];
-		moveDir=97;
+		moveDir=37;
 	}
 	foodX=flr(20*rnd());
 	foodY=flr(20*rnd());
 	canChangeDir=1;
 }
 reset();
-doct.onkeypress = function(evt) {
-	if(canChangeDir&&moveDir%12>5!=evt.which%12>5){moveDir=evt.which;canChangeDir=0;}
+doct.onkeydown=function(evt){
+	whichKey=evt.which;
+	if(canChangeDir&&36<whichKey&&whichKey<41&&moveDir%2!=whichKey%2){moveDir=whichKey;canChangeDir=0;}
 };
 setInterval(function(){
 	//draw background
@@ -26,8 +29,8 @@ setInterval(function(){
 	//move snake
 	tempPos0=positions[0];
 	positions.unshift({
-		x:tempPos0.x-flr((moveDir%14-3)/10),
-		y:tempPos0.y+flr((moveDir%13-3)/8)
+		x:tempPos0.x+(horizontalLookup[moveDir]||0),
+		y:tempPos0.y+(verticalLookup[moveDir]||0)
 	});
 	tempPosX=positions[0].x;
 	tempPosY=positions[0].y;
