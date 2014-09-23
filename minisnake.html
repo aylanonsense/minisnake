@@ -1,4 +1,4 @@
-<canvas id="a" width=400 height=400 />
+<canvas id="a" width=400 height=400/>
 <script>
 style='fillStyle';
 draw='fillRect';
@@ -6,6 +6,7 @@ flr=Math.floor;
 rnd=Math.random;
 doct=document;
 ctx=doct.getElementById('a').getContext('2d');
+ctx.font="20px Arial";
 horizontalLookup={37:-1,39:1};
 verticalLookup={38:-1,40:1};
 function reset(partial){
@@ -16,43 +17,50 @@ function reset(partial){
 	foodX=flr(20*rnd());
 	foodY=flr(20*rnd());
 	canChangeDir=1;
+	isGameOver=0;
 }
 reset();
 doct.onkeydown=function(evt){
 	whichKey=evt.which;
 	if(canChangeDir&36<whichKey&whichKey<41&moveDir%2!=whichKey%2){moveDir=whichKey;canChangeDir=0;}
+	if(whichKey==32){reset();}
 };
 setInterval(function(){
 	//draw background
 	ctx[style]="#cfb";
 	ctx[draw](0,0,400,400);
-	//move snake
-	tempPos0=positions[0];
-	positions.unshift({
-		x:tempPos0.x+(horizontalLookup[moveDir]|0),
-		y:tempPos0.y+(verticalLookup[moveDir]|0)
-	});
-	tempPosX=positions[0].x;
-	tempPosY=positions[0].y;
-	positions.pop();
-	//check for out of bounds
-	if(tempPosX<0|tempPosY<0|tempPosX>19|tempPosY>19){reset();}
-	//eat food
-	if(tempPosX==foodX&tempPosY==foodY){
-		positions.push([-1,-1]);
-		reset(1);
-	}
-	//draw food
-	ctx[style]="#f01";
-	ctx[draw](20*foodX,20*foodY,19,19);
-	//draw snake
 	ctx[style]="#444";
-	for(i in positions){
-		temp2PosX=positions[i].x;
-		temp2PosY=positions[i].y;
-		ctx[draw](20*temp2PosX,20*temp2PosY,19,19);
-		if(i>0&tempPosX==temp2PosX&tempPosY==temp2PosY){reset();}
+	if(isGameOver) {
+		ctx.fillText("Game Over! Press Space to start",50,160);
 	}
-	canChangeDir=1;
+	else {
+		//move snake
+		tempPos0=positions[0];
+		positions.unshift({
+			x:tempPos0.x+(horizontalLookup[moveDir]|0),
+			y:tempPos0.y+(verticalLookup[moveDir]|0)
+		});
+		tempPosX=positions[0].x;
+		tempPosY=positions[0].y;
+		positions.pop();
+		//check for out of bounds
+		if(tempPosX<0|tempPosY<0|tempPosX>19|tempPosY>19){isGameOver=1;}
+		//eat food
+		if(tempPosX==foodX&tempPosY==foodY){
+			positions.push([-1,-1]);
+			reset(1);
+		}
+		//draw snake
+		for(i in positions){
+			temp2PosX=positions[i].x;
+			temp2PosY=positions[i].y;
+			ctx[draw](20*temp2PosX,20*temp2PosY,19,19);
+			if(i>0&tempPosX==temp2PosX&tempPosY==temp2PosY){isGameOver=1;}
+		}
+		canChangeDir=1;
+		//draw food
+		ctx[style]="#f01";
+		ctx[draw](20*foodX,20*foodY,19,19);
+	}
 },99);
 </script>
