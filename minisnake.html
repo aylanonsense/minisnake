@@ -1,11 +1,12 @@
-<canvas id="a" width=400 height=400/>
+<canvas id="z" width=400 height=400/>
 <script>
 style='fillStyle';
 draw='fillRect';
 flr=Math.floor;
 rnd=Math.random;
-doct=document;
-ctx=doct.getElementById('a').getContext('2d');
+ctx=z.getContext('2d');
+tileSpacing=20;
+tileSize=19;
 ctx.font="20px Arial";
 movLookup=[0,-1,0,1,0];
 function reset(partial){
@@ -13,16 +14,16 @@ function reset(partial){
 		positions=[{x:9,y:9}];
 		moveDir=0;
 	}
-	foodX=flr(20*rnd());
-	foodY=flr(20*rnd());
+	foodX=flr(tileSpacing*rnd());
+	foodY=flr(tileSpacing*rnd());
 	canChangeDir=1;
 	isGameOver=0
 }
 reset();
-doct.onkeydown=function(evt){
+document.onkeydown=function(evt){
 	whichKey=evt.which;
 	if(canChangeDir&36<whichKey&whichKey<41&moveDir%2==whichKey%2){moveDir=whichKey-37;canChangeDir=0}
-	if(whichKey==32){reset()}
+	if(isGameOver&whichKey==32){reset()}
 };
 setInterval(function(){
 	//draw background
@@ -43,7 +44,7 @@ setInterval(function(){
 		tempPosY=positions[0].y;
 		positions.pop();
 		//check for out of bounds
-		if(tempPosX<0|tempPosY<0|tempPosX>19|tempPosY>19){isGameOver=1}
+		if(tempPosX<0|tempPosY<0|tempPosX>tileSize|tempPosY>tileSize){isGameOver=1}
 		//eat food
 		if(tempPosX==foodX&tempPosY==foodY){
 			positions.push([-1,-1]);
@@ -53,13 +54,13 @@ setInterval(function(){
 		for(i in positions){
 			temp2PosX=positions[i].x;
 			temp2PosY=positions[i].y;
-			ctx[draw](20*temp2PosX,20*temp2PosY,19,19);
+			ctx[draw](tileSpacing*temp2PosX,tileSpacing*temp2PosY,tileSize,tileSize);
 			if(i>0&tempPosX==temp2PosX&tempPosY==temp2PosY){isGameOver=1}
 		}
 		canChangeDir=1;
 		//draw food
 		ctx[style]="#f01";
-		ctx[draw](20*foodX,20*foodY,19,19)
+		ctx[draw](tileSpacing*foodX,tileSpacing*foodY,tileSize,tileSize)
 	}
 },99);
 </script>
