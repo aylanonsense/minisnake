@@ -20,7 +20,7 @@ function reset(partial){
 reset();
 doct.onkeydown=function(evt){
 	whichKey=evt.which;
-	if(canChangeDir&&36<whichKey&&whichKey<41&&moveDir%2!=whichKey%2){moveDir=whichKey;canChangeDir=0;}
+	if(canChangeDir&36<whichKey&whichKey<41&moveDir%2!=whichKey%2){moveDir=whichKey;canChangeDir=0;}
 };
 setInterval(function(){
 	//draw background
@@ -29,16 +29,16 @@ setInterval(function(){
 	//move snake
 	tempPos0=positions[0];
 	positions.unshift({
-		x:tempPos0.x+(horizontalLookup[moveDir]||0),
-		y:tempPos0.y+(verticalLookup[moveDir]||0)
+		x:tempPos0.x+(horizontalLookup[moveDir]|0),
+		y:tempPos0.y+(verticalLookup[moveDir]|0)
 	});
 	tempPosX=positions[0].x;
 	tempPosY=positions[0].y;
 	positions.pop();
 	//check for out of bounds
-	if(tempPosX<0||tempPosY<0||tempPosX>19||tempPosY>19){reset();}
+	if(tempPosX<0|tempPosY<0|tempPosX>19|tempPosY>19){reset();}
 	//eat food
-	if(tempPosX==foodX&&tempPosY==foodY){
+	if(tempPosX==foodX&tempPosY==foodY){
 		positions.push([-1,-1]);
 		reset(1);
 	}
@@ -51,7 +51,7 @@ setInterval(function(){
 		temp2PosX=positions[i].x;
 		temp2PosY=positions[i].y;
 		ctx[draw](20*temp2PosX,20*temp2PosY,19,19);
-		if(i>0&&tempPosX==temp2PosX&&tempPosY==temp2PosY){reset();}
+		if(i>0&tempPosX==temp2PosX&tempPosY==temp2PosY){reset();}
 	}
 	canChangeDir=1;
 },99);
