@@ -1,55 +1,55 @@
 <canvas id="a" width=400 height=400 />
 <script>
-s='fillStyle';
-b='fillRect';
-f=Math.floor;
-r=Math.random;
-z=document;
-c=z.getElementById('a').getContext('2d');
+style='fillStyle';
+draw='fillRect';
+flr=Math.floor;
+rnd=Math.random;
+doct=document;
+ctx=doct.getElementById('a').getContext('2d');
 function reset(partial) {
 	if(!partial){
-		pos=[{x:9,y:9}];
-		dir=97;
+		positions=[{x:9,y:9}];
+		moveDir=97;
 	}
-	k=f(20*r());
-	h=f(20*r());
-	changed=false;
+	foodX=flr(20*rnd());
+	foodY=flr(20*rnd());
+	canChangeDir=1;
 }
 reset();
-z.onkeypress = function(evt) {
-	if(!changed&&dir%12>5!=evt.which%12>5){dir = evt.which;changed=true;}
+doct.onkeypress = function(evt) {
+	if(canChangeDir&&moveDir%12>5!=evt.which%12>5){moveDir=evt.which;canChangeDir=0;}
 };
 setInterval(function(){
 	//draw background
-	c[s]="#cfb";
-	c[b](0,0,400,400);
+	ctx[style]="#cfb";
+	ctx[draw](0,0,400,400);
 	//move snake
-	o=pos[0];
-	pos.unshift({
-		x:o.x-f((dir%14-3)/10),
-		y:o.y+f((dir%13-3)/8)
+	tempPos0=positions[0];
+	positions.unshift({
+		x:tempPos0.x-flr((moveDir%14-3)/10),
+		y:tempPos0.y+flr((moveDir%13-3)/8)
 	});
-	o=pos[0].x;
-	q=pos[0].y;
-	pos.pop();
+	tempPosX=positions[0].x;
+	tempPosY=positions[0].y;
+	positions.pop();
 	//check for out of bounds
-	if(o<0 || q<0 || o>19 || q>19){reset();}
+	if(tempPosX<0||tempPosY<0||tempPosX>19||tempPosY>19){reset();}
 	//eat food
-	if(o==k && q==h){
-		pos.push([k]);
+	if(tempPosX==foodX&&tempPosY==foodY){
+		positions.push([-1,-1]);
 		reset(1);
 	}
 	//draw food
-	c[s]="#f01";
-	c[b](20*k,20*h,19,19);
+	ctx[style]="#f01";
+	ctx[draw](20*foodX,20*foodY,19,19);
 	//draw snake
-	c[s]="#444";
-	for(i in pos){
-		t=pos[i].x;
-		v=pos[i].y;
-		c[b](20*t,20*v,19,19);
-		if(i>0 && t==o && v==q){reset();}
+	ctx[style]="#444";
+	for(i in positions){
+		temp2PosX=positions[i].x;
+		temp2PosY=positions[i].y;
+		ctx[draw](20*temp2PosX,20*temp2PosY,19,19);
+		if(i>0&&tempPosX==temp2PosX&&tempPosY==temp2PosY){reset();}
 	}
-	changed=false;
+	canChangeDir=1;
 },99);
 </script>
