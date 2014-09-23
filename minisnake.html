@@ -4,13 +4,11 @@ style='fillStyle';
 draw='fillRect';
 rnd=Math.random;
 ctx=z.getContext('2d');
-tileSpacing=20;
-tileSize=19;
 ctx.font="20px Arial";
 movLookup=[0,-1,0,1,0];
-function reset(partial){
-	if(!partial){
-		positions=[{x:9,y:9}];
+function reset(fully){
+	if(fully){
+		positions=[[9,9]];
 		moveDir=0;
 	}
 	foodX=~~(tileSpacing*rnd());
@@ -18,45 +16,45 @@ function reset(partial){
 	canChangeDir=1;
 	isGameOver=0
 }
-reset();
+reset(tileSpacing=20);
 document.onkeydown=function(evt){
 	whichKey=evt.which;
 	if(canChangeDir&36<whichKey&whichKey<41&moveDir%2==whichKey%2){moveDir=whichKey-37;canChangeDir=0}
-	if(isGameOver&whichKey==32){reset()}
+	if(isGameOver&whichKey==32){reset(1)}
 };
 setInterval(function(){
 	//draw background
 	ctx[style]="#cfb";
-	ctx[draw](0,0,400,400);
+	ctx[draw](0,0,400,400)
 	ctx[style]="#444";
-	if(isGameOver) {
+	if(isGameOver){
 		ctx.fillText("Game Over! Press Space to start",50,160)
 	}
 	else{
 		//move snake
 		tempPos0=positions[0];
-		positions.unshift({
-			x:tempPos0.x+movLookup[moveDir+1],
-			y:tempPos0.y+movLookup[moveDir]
-		});
-		tempPosX=positions[0].x;
-		tempPosY=positions[0].y;
+		positions.unshift([
+			tempPos0[0]+movLookup[moveDir+1],
+			tempPos0[1]+movLookup[moveDir]
+		]);
+		tempPosX=positions[0][0];
+		tempPosY=positions[0][1];
 		positions.pop();
-		//check for out of bounds
-		if(tempPosX<0|tempPosY<0|tempPosX>tileSize|tempPosY>tileSize){isGameOver=1}
 		//eat food
 		if(tempPosX==foodX&tempPosY==foodY){
 			positions.push([-1,-1]);
-			reset(1)
+			reset()
 		}
 		//draw snake
 		for(i in positions){
-			temp2PosX=positions[i].x;
-			temp2PosY=positions[i].y;
-			ctx[draw](tileSpacing*temp2PosX,tileSpacing*temp2PosY,tileSize,tileSize);
+			temp2PosX=positions[i][0];
+			temp2PosY=positions[i][1];
 			if(i>0&tempPosX==temp2PosX&tempPosY==temp2PosY){isGameOver=1}
+			ctx[draw](tileSpacing*temp2PosX,tileSpacing*temp2PosY,tileSize=19,tileSize)
 		}
 		canChangeDir=1;
+		//check for out of bounds
+		if(tempPosX<0|tempPosY<0|tempPosX>tileSize|tempPosY>tileSize){isGameOver=1}
 		//draw food
 		ctx[style]="#f01";
 		ctx[draw](tileSpacing*foodX,tileSpacing*foodY,tileSize,tileSize)
