@@ -1,5 +1,7 @@
 <canvas id="a" width=400 height=400 />
 <script>
+s='fillStyle';
+b='fillRect';
 f=Math.floor;
 r=Math.random;
 z=document;
@@ -18,8 +20,8 @@ z.onkeypress = function(evt) {
 };
 setInterval(function(){
 	//draw background
-	c.fillStyle="#cfb";
-	c.fillRect(0,0,400,400);
+	c[s]="#cfb";
+	c[b](0,0,400,400);
 	//move snake
 	pos.unshift({
 		x:pos[0].x-f((dir%14-3)/10),
@@ -34,12 +36,12 @@ setInterval(function(){
 		reset(1);
 	}
 	//draw food
-	c.fillStyle="#f01";
-	c.fillRect(20*food.x,20*food.y,19,19);
+	c[s]="#f01";
+	c[b](20*food.x,20*food.y,19,19);
 	//draw snake
-	c.fillStyle="#444";
+	c[s]="#444";
 	for(i=0;i<pos.length;i++){
-		c.fillRect(20*pos[i].x,20*pos[i].y,19,19);
+		c[b](20*pos[i].x,20*pos[i].y,19,19);
 		if(i>0 && pos[i].x==pos[0].x && pos[i].y==pos[0].y){reset();}
 	}
 	changed=false;
