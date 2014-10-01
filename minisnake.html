@@ -5,18 +5,18 @@ draw='fillRect';
 rnd=Math.random;
 ctx=z.getContext('2d');
 ctx.font="20px Arial";
-movLookup=[0,-1,0,1,0];
+movLookup=[-1,-20,1,20];
+tileSpacing=20;
 function reset(fully){
 	if(fully){
-		positions=[[9,9]];
-		moveDir=0;
+		positions=[0];
+		moveDir=2;
 	}
-	foodX=~~(tileSpacing*rnd());
-	foodY=~~(tileSpacing*rnd());
+	foodPos=~~(numTiles*rnd());
 	canChangeDir=1;
 	isGameOver=0
 }
-reset(tileSpacing=20);
+reset(numTiles=400);
 document.onkeydown=function(evt){
 	whichKey=evt.which;
 	if(canChangeDir&36<whichKey&whichKey<41&moveDir%2==whichKey%2){moveDir=whichKey-37;canChangeDir=0}
@@ -25,39 +25,34 @@ document.onkeydown=function(evt){
 setInterval(function(){
 	//draw background
 	ctx[style]="#cfb";
-	ctx[draw](0,0,400,400);
+	ctx[draw](0,0,numTiles,numTiles);
 	ctx[style]="#444";
 	if(isGameOver){
 		ctx.fillText("Game Over! Press Space to start",50,160)
 	}
 	else{
 		//move snake
+		positions.unshift(positions[0]+movLookup[moveDir]);
 		tempPos0=positions[0];
-		positions.unshift([
-			tempPos0[0]+movLookup[moveDir+1],
-			tempPos0[1]+movLookup[moveDir]
-		]);
-		tempPosX=positions[0][0];
-		tempPosY=positions[0][1];
 		positions.pop();
 		//eat food
-		if(tempPosX==foodX&tempPosY==foodY){
-			positions.push([-1,-1]);
+		if(tempPos0==foodPos){
+			positions.push(-1);
 			reset()
 		}
 		//draw snake
 		for(i in positions){
-			temp2PosX=positions[i][0];
-			temp2PosY=positions[i][1];
-			if(i>0&tempPosX==temp2PosX&tempPosY==temp2PosY){isGameOver=1}
-			ctx[draw](tileSpacing*temp2PosX,tileSpacing*temp2PosY,tileSize=19,tileSize)
+			tempPos2=positions[i];
+			if(i>0&tempPos0==tempPos2){isGameOver=1}
+			ctx[draw](tempPos2%20*tileSpacing,~~(tempPos2/20)*tileSpacing,tileSize=19,tileSize)
 		}
 		canChangeDir=1;
 		//check for out of bounds
-		if(tempPosX<0|tempPosY<0|tempPosX>tileSize|tempPosY>tileSize){isGameOver=1}
+		outOfBoundsAlongEdges=tempPos0%20-moveDir;
+		if(tempPos0<0|tempPos0>numTiles|!(moveDir%2|outOfBoundsAlongEdges!=-2&outOfBoundsAlongEdges!=19)){isGameOver=1}
 		//draw food
 		ctx[style]="#f01";
-		ctx[draw](tileSpacing*foodX,tileSpacing*foodY,tileSize,tileSize)
+		ctx[draw](foodPos%20*tileSpacing,~~(foodPos/20)*tileSpacing,tileSize,tileSize)
 	}
 },99);
 </script>
