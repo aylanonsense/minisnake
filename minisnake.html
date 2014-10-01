@@ -2,17 +2,15 @@
 <script>
 style='fillStyle';
 draw='fillRect';
-rnd=Math.random;
 ctx=z.getContext('2d');
 ctx.font="20px Arial";
-movLookup=[-1,-20,1,20];
-tileSpacing=20;
+movLookup=[-1,-20,1,twenty=20];
 function reset(fully){
 	if(fully){
 		positions=[0];
 		moveDir=2;
 	}
-	foodPos=~~(numTiles*rnd());
+	foodPos=~~(numTiles*Math.random());
 	canChangeDir=1;
 	isGameOver=0
 }
@@ -44,15 +42,15 @@ setInterval(function(){
 		for(i in positions){
 			tempPos2=positions[i];
 			if(i>0&tempPos0==tempPos2){isGameOver=1}
-			ctx[draw](tempPos2%20*tileSpacing,~~(tempPos2/20)*tileSpacing,tileSize=19,tileSize)
+			ctx[draw](tempPos2%twenty*twenty,~~(tempPos2/twenty)*twenty,nineteen=19,nineteen)
 		}
 		canChangeDir=1;
 		//check for out of bounds
-		outOfBoundsAlongEdges=tempPos0%20-moveDir;
-		if(tempPos0<0|tempPos0>numTiles|!(moveDir%2|outOfBoundsAlongEdges!=-2&outOfBoundsAlongEdges!=19)){isGameOver=1}
+		outOfBoundsAlongEdges=tempPos0%twenty-moveDir;
+		if(tempPos0<0|tempPos0>numTiles|!(moveDir%2|outOfBoundsAlongEdges!=-2&outOfBoundsAlongEdges!=nineteen)){isGameOver=1}
 		//draw food
 		ctx[style]="#f01";
-		ctx[draw](foodPos%20*tileSpacing,~~(foodPos/20)*tileSpacing,tileSize,tileSize)
+		ctx[draw](foodPos%twenty*twenty,~~(foodPos/twenty)*twenty,nineteen,nineteen)
 	}
 },99);
 </script>
