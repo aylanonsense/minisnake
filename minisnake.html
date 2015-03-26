@@ -7,16 +7,15 @@ ctx.font="20px Arial";
 function reset(fully){
 	if(fully){
 		positions=[0];
-		moveDir=2;
+		nextMoveDir=moveDir=2
 	}
 	foodPos=~~(numTiles*Math.random());
-	canChangeDir=1;
 	isGameOver=0
 }
 reset(numTiles=400);
 document.onkeydown=function(evt){
 	whichKey=evt.which;
-	if(canChangeDir&36<whichKey&whichKey<41&moveDir%2==whichKey%2){moveDir=whichKey-37;canChangeDir=0}
+	if(36<whichKey&whichKey<41&moveDir%2==whichKey%2){nextMoveDir=whichKey-37}
 	if(isGameOver&whichKey==32){reset(1)}
 };
 setInterval(function(){
@@ -29,6 +28,7 @@ setInterval(function(){
 	}
 	else{
 		//move snake
+		moveDir=nextMoveDir;
 		positions.unshift(tempPos0=positions[0]-[1,twenty=20,-1,-twenty][moveDir]);
 		positions.pop();
 		//eat food
@@ -39,7 +39,7 @@ setInterval(function(){
 		for(i in positions){
 			tempPos2=positions[i];
 			if(i>0&tempPos0==tempPos2){isGameOver=1}
-			ctx[draw](tempPos2%twenty*twenty,~~(tempPos2/twenty)*twenty,nineteen=19,canChangeDir=nineteen)
+			ctx[draw](tempPos2%twenty*twenty,~~(tempPos2/twenty)*twenty,nineteen=19,nineteen)
 		}
 		//check for out of bounds
 		outOfBoundsAlongEdges=tempPos0%twenty-moveDir;
